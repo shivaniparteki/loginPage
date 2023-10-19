@@ -51,7 +51,7 @@ const Login = () => {
   return (
     <>
       <div className='flex flex-col items-center min-h-screen justify-center bg-white ' >
-        <div className='wrapper flex flex-col items-center font-sans text-black border border-gray-600 rounded-lg px-16 py-10 bg-white'>
+        <div className='wrapper flex flex-col items-center font-sans text-black  rounded-lg px-16 py-10 shadow-[0px_8px_40px_0px_#434549] bg-white'>
           <h1 className='text-4xl text-black '>{loading ? "Processing" : "Login"}</h1>
 
           <hr className='border w-[12rem] my-4' />

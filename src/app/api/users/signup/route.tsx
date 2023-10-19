@@ -2,6 +2,7 @@ import { connect } from "@/app/dbConfig/dbConfig";
 import User from "@/app/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
+import { sendEmail } from "@/app/helpers/mailer";
 
 
 
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     if (user) {
       return NextResponse.json({ error: "User already exists" },
-      { status: 400 })
+        { status: 400 })
     }
 
     //hash password
@@ -34,9 +35,17 @@ export async function POST(request: NextRequest) {
       password: hashedPassword
 
     })
- 
+
     const savedUser = await newUser.save()
     console.log(savedUser);
+
+    //send verification email
+    await sendEmail({
+      email, emailType: "VERIFY",
+      userId: savedUser._id
+    })
+
+
 
     return NextResponse.json({
       message: "User created successfully",
@@ -47,7 +56,7 @@ export async function POST(request: NextRequest) {
 
 
   } catch (error: any) {
-    return NextResponse.json({error: error.message},
+    return NextResponse.json({ error: error.message },
       { status: 500 })
 
   }
